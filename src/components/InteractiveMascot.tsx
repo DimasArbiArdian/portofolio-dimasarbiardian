@@ -38,15 +38,15 @@ function SpideyCharacter({
           ? 'transform 0.28s cubic-bezier(0.25, 1, 0.5, 1)'
           : 'transform 0.12s linear',
       }}
-      className="fixed bottom-1 z-40 select-none cursor-pointer group flex flex-col items-center pointer-events-auto"
+      className="fixed bottom-0.5 sm:bottom-1 z-40 select-none cursor-pointer group flex flex-col items-center pointer-events-auto"
       title="Spidey"
     >
-      {/* Speech Bubble */}
+      {/* Speech Bubble - Compact & Non-Obstructive on Mobile */}
       {state.showBubble && (
-        <div className="absolute -top-11 left-1/2 -translate-x-1/2 whitespace-nowrap animate-in fade-in zoom-in-95 duration-200 z-50">
-          <div className="relative px-3 py-1 rounded-xl bg-white text-black border-2 border-black font-mono text-[11px] font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center gap-1.5">
-            <span>{state.bubbleText}</span>
-            <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-2 h-2 bg-white border-r-2 border-b-2 border-black rotate-45" />
+        <div className="absolute -top-7 sm:-top-11 left-1/2 -translate-x-1/2 pointer-events-none animate-in fade-in zoom-in-95 duration-200 z-50">
+          <div className="relative px-2 py-0.5 sm:px-3 sm:py-1 rounded-lg sm:rounded-xl bg-white text-black border border-black sm:border-2 font-mono text-[9px] sm:text-[11px] font-black shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] sm:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center gap-1 max-w-[150px] sm:max-w-none text-center">
+            <span className="truncate sm:whitespace-nowrap">{state.bubbleText}</span>
+            <div className="absolute -bottom-1 sm:-bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white border-r border-b sm:border-r-2 sm:border-b-2 border-black rotate-45" />
           </div>
         </div>
       )}
@@ -57,23 +57,23 @@ function SpideyCharacter({
           state.isDizzy
             ? 'animate-spin'
             : state.isScared
-            ? 'scale-110 -translate-y-2'
+            ? 'scale-110 -translate-y-1 sm:-translate-y-2'
             : 'hover:scale-110 -translate-y-0.5'
         }`}
       >
         {/* Dizzy Emojis */}
         {state.isDizzy && (
-          <div className="absolute -top-7 left-1/2 -translate-x-1/2 font-black text-amber-500 font-mono text-sm animate-bounce whitespace-nowrap z-50">
+          <div className="absolute -top-6 sm:-top-7 left-1/2 -translate-x-1/2 font-black text-amber-500 font-mono text-xs sm:text-sm animate-bounce whitespace-nowrap z-50 pointer-events-none">
             🕸️ ? 🕸️
           </div>
         )}
 
-        {/* Articulated Chibi Spidey Character */}
+        {/* Articulated Chibi Spidey Character - Scaled down on Mobile (w-12 h-16 = 48x64px vs w-20 h-28 on desktop) */}
         <div
           style={{
             transform: state.direction === 'left' ? 'scaleX(-1)' : 'scaleX(1)',
           }}
-          className={`relative w-20 h-28 sm:w-22 sm:h-30 transition-transform duration-150 filter drop-shadow-[2px_5px_8px_rgba(0,0,0,0.35)] select-none pointer-events-none ${
+          className={`relative w-12 h-16 sm:w-20 sm:h-28 md:w-22 md:h-30 transition-transform duration-150 filter drop-shadow-[2px_5px_8px_rgba(0,0,0,0.35)] select-none pointer-events-none ${
             state.isWalking && !state.isDizzy ? 'animate-bounce-subtle' : ''
           }`}
         >
@@ -170,7 +170,7 @@ function SpiderCrawlerCharacter({
           ? 'transform 0.25s cubic-bezier(0.25, 1, 0.5, 1)'
           : 'transform 0.12s linear',
       }}
-      className="fixed bottom-2 z-40 select-none cursor-pointer group flex flex-col items-center pointer-events-auto"
+      className="fixed bottom-2 z-40 select-none cursor-pointer group hidden md:flex flex-col items-center pointer-events-auto"
       title="Cute Crawler Spider"
     >
       {/* Speech Bubble */}
@@ -316,7 +316,7 @@ function OriginalCreatureCharacter({
           ? 'transform 0.28s cubic-bezier(0.25, 1, 0.5, 1)'
           : 'transform 0.12s linear',
       }}
-      className="fixed bottom-1 z-40 select-none cursor-pointer group flex flex-col items-center pointer-events-auto"
+      className="fixed bottom-1 z-40 select-none cursor-pointer group hidden md:flex flex-col items-center pointer-events-auto"
       title="Original Mascot"
     >
       {/* Speech Bubble */}
@@ -472,29 +472,39 @@ export default function InteractiveMascot() {
     return () => clearInterval(blinkInterval);
   }, []);
 
-  // Autonomous wandering tick for all three mascots
+  // Autonomous wandering tick for all mascots
   useEffect(() => {
     const interval = setInterval(() => {
       const screenWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
-      const minX = 24;
-      const maxX = screenWidth - 110;
+      const isMobile = screenWidth < 768;
+      const minX = isMobile ? 8 : 24;
+      const maxX = isMobile ? Math.max(90, screenWidth - 56) : screenWidth - 110;
 
-      // Update Spidey
+      // Update Spidey (Always active, perfectly scaled for mobile & desktop)
       setSpidey((prev) => {
         if (prev.isDizzy || prev.isScared) return prev;
         let newX = prev.posX;
         let newDir = prev.direction;
 
-        if (prev.direction === 'right') {
-          newX += prev.speed * 1.6;
-          if (newX >= maxX - 20) {
-            newX = maxX - 20;
+        // Auto correct if window or orientation changed
+        if (newX > maxX - 8) {
+          newX = maxX - 8;
+          newDir = 'left';
+        } else if (newX < minX + 8) {
+          newX = minX + 8;
+          newDir = 'right';
+        }
+
+        if (newDir === 'right') {
+          newX += prev.speed * 1.5;
+          if (newX >= maxX - 10) {
+            newX = maxX - 10;
             newDir = 'left';
           }
         } else {
-          newX -= prev.speed * 1.6;
-          if (newX <= minX + 20) {
-            newX = minX + 20;
+          newX -= prev.speed * 1.5;
+          if (newX <= minX + 10) {
+            newX = minX + 10;
             newDir = 'right';
           }
         }
@@ -506,70 +516,74 @@ export default function InteractiveMascot() {
         return { ...prev, posX: newX, direction: newDir, isWalking: true };
       });
 
-      // Update Spider Crawler
-      setSpider((prev) => {
-        if (prev.isDizzy || prev.isScared) return prev;
-        let newX = prev.posX;
-        let newDir = prev.direction;
+      // Update Spider Crawler & Original Mascot only on tablet/desktop (saves mobile CPU)
+      if (!isMobile) {
+        // Update Spider Crawler
+        setSpider((prev) => {
+          if (prev.isDizzy || prev.isScared) return prev;
+          let newX = prev.posX;
+          let newDir = prev.direction;
 
-        if (prev.direction === 'right') {
-          newX += prev.speed * 1.7;
-          if (newX >= maxX - 20) {
-            newX = maxX - 20;
-            newDir = 'left';
+          if (prev.direction === 'right') {
+            newX += prev.speed * 1.7;
+            if (newX >= maxX - 20) {
+              newX = maxX - 20;
+              newDir = 'left';
+            }
+          } else {
+            newX -= prev.speed * 1.7;
+            if (newX <= minX + 20) {
+              newX = minX + 20;
+              newDir = 'right';
+            }
           }
-        } else {
-          newX -= prev.speed * 1.7;
-          if (newX <= minX + 20) {
-            newX = minX + 20;
-            newDir = 'right';
+
+          if (Math.random() < 0.016) {
+            newDir = newDir === 'right' ? 'left' : 'right';
           }
-        }
 
-        if (Math.random() < 0.016) {
-          newDir = newDir === 'right' ? 'left' : 'right';
-        }
+          return { ...prev, posX: newX, direction: newDir, isWalking: true };
+        });
 
-        return { ...prev, posX: newX, direction: newDir, isWalking: true };
-      });
+        // Update Original Mascot
+        setOriginal((prev) => {
+          if (prev.isDizzy || prev.isScared) return prev;
+          let newX = prev.posX;
+          let newDir = prev.direction;
 
-      // Update Original Mascot
-      setOriginal((prev) => {
-        if (prev.isDizzy || prev.isScared) return prev;
-        let newX = prev.posX;
-        let newDir = prev.direction;
-
-        if (prev.direction === 'right') {
-          newX += prev.speed * 1.5;
-          if (newX >= maxX - 20) {
-            newX = maxX - 20;
-            newDir = 'left';
+          if (prev.direction === 'right') {
+            newX += prev.speed * 1.5;
+            if (newX >= maxX - 20) {
+              newX = maxX - 20;
+              newDir = 'left';
+            }
+          } else {
+            newX -= prev.speed * 1.5;
+            if (newX <= minX + 20) {
+              newX = minX + 20;
+              newDir = 'right';
+            }
           }
-        } else {
-          newX -= prev.speed * 1.5;
-          if (newX <= minX + 20) {
-            newX = minX + 20;
-            newDir = 'right';
+
+          if (Math.random() < 0.014) {
+            newDir = newDir === 'right' ? 'left' : 'right';
           }
-        }
 
-        if (Math.random() < 0.014) {
-          newDir = newDir === 'right' ? 'left' : 'right';
-        }
-
-        return { ...prev, posX: newX, direction: newDir, isWalking: true };
-      });
+          return { ...prev, posX: newX, direction: newDir, isWalking: true };
+        });
+      }
     }, 45);
 
     return () => clearInterval(interval);
   }, []);
 
-  // Cursor avoidance logic for each of the 3 mascots
+  // Cursor avoidance logic
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const screenWidth = window.innerWidth;
-      const minX = 24;
-      const maxX = screenWidth - 110;
+      const isMobile = screenWidth < 768;
+      const minX = isMobile ? 8 : 24;
+      const maxX = isMobile ? Math.max(90, screenWidth - 56) : screenWidth - 110;
 
       // 1. Spidey avoidance
       if (spideyRef.current) {
@@ -580,8 +594,9 @@ export default function InteractiveMascot() {
 
         setSpidey((prev) => {
           if (prev.isDizzy) return prev;
-          if (dist < 115) {
-            const escapeSpeed = 4.5;
+          const triggerDist = isMobile ? 75 : 115;
+          if (dist < triggerDist) {
+            const escapeSpeed = isMobile ? 3.6 : 4.5;
             const newX = deltaX > 0 ? prev.posX + escapeSpeed : prev.posX - escapeSpeed;
             const newDir = deltaX > 0 ? 'right' : 'left';
 
@@ -605,6 +620,9 @@ export default function InteractiveMascot() {
           return prev;
         });
       }
+
+      // On mobile devices, skip avoidance checks for hidden mascots
+      if (isMobile) return;
 
       // 2. Spider Crawler avoidance
       if (spiderRef.current) {
