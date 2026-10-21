@@ -127,11 +127,11 @@ export default function About({ currentLang }: AboutProps) {
             </div>
 
             {/* Bottom Status & Hire Me Overlay */}
-            <div className="relative z-10 p-4 rounded-2xl bg-black text-white dark:bg-white dark:text-black flex items-center justify-between gap-3 shadow-md mt-4">
+            <div className="relative z-10 p-4 rounded-2xl bg-slate-950 text-white dark:bg-slate-900 dark:text-white border border-white/10 flex items-center justify-between gap-3 shadow-md mt-4">
               <div>
-                <p className="font-mono text-xs font-bold">@dimasarbiardian</p>
-                <p className="text-[10px] text-emerald-400 dark:text-emerald-600 font-mono flex items-center gap-1.5 font-bold">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 dark:bg-emerald-600 animate-pulse" />
+                <p className="font-mono text-xs font-bold text-white tracking-wide">@dimasarbiardian</p>
+                <p className="text-[10px] text-emerald-400 font-mono flex items-center gap-1.5 font-bold">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                   {dict.about.statusOnline}
                 </p>
               </div>
@@ -139,7 +139,7 @@ export default function About({ currentLang }: AboutProps) {
               <a
                 href="#contact"
                 onClick={() => sounds.playClick()}
-                className="px-4 py-2 rounded-xl bg-white text-black dark:bg-black dark:text-white font-extrabold text-xs uppercase tracking-wider hover:scale-105 active:scale-95 transition-all shadow-sm"
+                className="px-4 py-2 rounded-xl bg-white text-black hover:bg-slate-100 font-extrabold text-xs uppercase tracking-wider hover:scale-105 active:scale-95 transition-all shadow-sm cursor-pointer"
               >
                 {dict.about.hireMe}
               </a>
@@ -301,25 +301,25 @@ export default function About({ currentLang }: AboutProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.6, delay: 0.35, ease: 'easeOut' }}
-          className="rounded-3xl border-2 border-black dark:border-white/20 p-6 sm:p-8 bg-black text-white dark:bg-white dark:text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.4)] dark:hover:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.9)] flex flex-col md:flex-row items-start md:items-center justify-between gap-6 group cursor-default"
+          className="rounded-3xl border-2 border-black dark:border-white/20 p-6 sm:p-8 bg-slate-950 text-white dark:bg-[#0c121e] dark:text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.4)] dark:hover:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.9)] flex flex-col md:flex-row items-start md:items-center justify-between gap-6 group cursor-default"
         >
           <div className="max-w-2xl">
-            <h4 className="text-2xl font-black uppercase tracking-tight mb-2">
+            <h4 className="text-2xl font-black uppercase tracking-tight mb-2 text-white">
               {dict.about.focusTitle}
             </h4>
-            <p className="text-slate-300 dark:text-slate-700 text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-300 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
               {dict.about.focusDesc}
             </p>
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <div className="px-4 py-2.5 rounded-2xl border-2 border-white/30 dark:border-black/30 bg-white/10 dark:bg-black/10 text-xs font-mono font-extrabold flex items-center gap-2 group-hover:scale-105 transition-transform">
-              <Code2 className="w-4 h-4 text-cyan-400 dark:text-cyan-600" />
+            <div className="px-4 py-2.5 rounded-2xl border-2 border-white/20 bg-white/10 text-white text-xs font-mono font-extrabold flex items-center gap-2 group-hover:scale-105 transition-transform">
+              <Code2 className="w-4 h-4 text-cyan-400" />
               <span>{dict.about.focusPills.fullstack}</span>
             </div>
 
-            <div className="px-4 py-2.5 rounded-2xl border-2 border-white/30 dark:border-black/30 bg-white/10 dark:bg-black/10 text-xs font-mono font-extrabold flex items-center gap-2 group-hover:scale-105 transition-transform">
-              <Brain className="w-4 h-4 text-emerald-400 dark:text-emerald-600" />
+            <div className="px-4 py-2.5 rounded-2xl border-2 border-white/20 bg-white/10 text-white text-xs font-mono font-extrabold flex items-center gap-2 group-hover:scale-105 transition-transform">
+              <Brain className="w-4 h-4 text-emerald-400" />
               <span>{dict.about.focusPills.aiVision}</span>
             </div>
           </div>

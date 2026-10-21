@@ -29,19 +29,46 @@ export default function Hero({ currentLang, theme = 'light' }: HeroProps) {
   const dict = DICTIONARIES[currentLang];
   const targetCode = dict.hero.terminalCode;
 
-  // Initial neat, orderly arrangement (balanced rows with 0 rotation)
-  const [pills, setPills] = useState<InteractivePill[]>([
-    { id: 'pill-star', type: 'star', x: -280, y: -22, rot: 0, isCircle: true },
-    { id: 'pill-fullstack', type: 'fullstack', x: -140, y: -22, rot: 0 },
-    { id: 'pill-ai', type: 'aiResearcher', x: 50, y: -22, rot: 0 },
-    { id: 'pill-code', type: 'code', x: 220, y: -22, rot: 0, isCircle: true },
-    { id: 'pill-informatics', type: 'cumLaude', x: -210, y: 24, rot: 0 },
-    { id: 'pill-dimas', type: 'dimasTag', x: -10, y: 24, rot: 0 },
-    { id: 'pill-instructor', type: 'instructor', x: 195, y: 24, rot: 0 },
-  ]);
+  const getInitialPills = (): InteractivePill[] => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+    if (isMobile) {
+      return [
+        { id: 'pill-star', type: 'star', x: -115, y: -22, rot: 0, isCircle: true },
+        { id: 'pill-fullstack', type: 'fullstack', x: -40, y: -22, rot: 0 },
+        { id: 'pill-ai', type: 'aiResearcher', x: 50, y: -22, rot: 0 },
+        { id: 'pill-code', type: 'code', x: 120, y: -22, rot: 0, isCircle: true },
+        { id: 'pill-informatics', type: 'cumLaude', x: -85, y: 24, rot: 0 },
+        { id: 'pill-dimas', type: 'dimasTag', x: 10, y: 24, rot: 0 },
+        { id: 'pill-instructor', type: 'instructor', x: 95, y: 24, rot: 0 },
+      ];
+    }
+    return [
+      { id: 'pill-star', type: 'star', x: -280, y: -22, rot: 0, isCircle: true },
+      { id: 'pill-fullstack', type: 'fullstack', x: -140, y: -22, rot: 0 },
+      { id: 'pill-ai', type: 'aiResearcher', x: 50, y: -22, rot: 0 },
+      { id: 'pill-code', type: 'code', x: 220, y: -22, rot: 0, isCircle: true },
+      { id: 'pill-informatics', type: 'cumLaude', x: -210, y: 24, rot: 0 },
+      { id: 'pill-dimas', type: 'dimasTag', x: -10, y: 24, rot: 0 },
+      { id: 'pill-instructor', type: 'instructor', x: 195, y: 24, rot: 0 },
+    ];
+  };
+
+  const [pills, setPills] = useState<InteractivePill[]>(getInitialPills);
 
   const activeDragIdRef = useRef<string | null>(null);
   const boundaryRef = useRef<HTMLDivElement>(null);
+
+  // Responsive pills layout on resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (!activeDragIdRef.current) {
+        setPills(getInitialPills());
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Format date dynamically with current language
   useEffect(() => {
@@ -104,7 +131,8 @@ export default function Hero({ currentLang, theme = 'light' }: HeroProps) {
       };
 
       // Elliptical collision detection tailored to pill width & height
-      const maxX = 380;
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+      const maxX = isMobile ? 120 : 380;
       const maxY = 50;
 
       for (let i = 0; i < updated.length; i++) {
@@ -228,7 +256,7 @@ export default function Hero({ currentLang, theme = 'light' }: HeroProps) {
         {/* Invisible Boundary Playground for Draggable Badges */}
         <div
           ref={boundaryRef}
-          className="w-full max-w-4xl relative h-32 sm:h-36 flex items-center justify-center select-none z-30 mb-4 sm:mb-6"
+          className="w-full max-w-4xl relative h-32 sm:h-36 flex items-center justify-center select-none z-30 mb-4 sm:mb-6 overflow-hidden sm:overflow-visible"
         >
 
           {pills.map((pill) => {
@@ -273,18 +301,18 @@ export default function Hero({ currentLang, theme = 'light' }: HeroProps) {
                   theme === 'spiderman'
                     ? isCircle
                       ? isCode
-                        ? 'w-10 h-10 rounded-full bg-gradient-to-br from-red-600 to-black text-white border-2 border-white flex items-center justify-center font-mono font-bold text-xs shadow-[3px_3px_0px_0px_#0284c7]'
-                        : 'w-10 h-10 rounded-full bg-sky-600 text-white border-2 border-white flex items-center justify-center font-black text-base shadow-[3px_3px_0px_0px_#e23636]'
+                        ? 'w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-red-600 to-black text-white border-2 border-white flex items-center justify-center font-mono font-bold text-[10px] sm:text-xs shadow-[3px_3px_0px_0px_#0284c7]'
+                        : 'w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-sky-600 text-white border-2 border-white flex items-center justify-center font-black text-sm sm:text-base shadow-[3px_3px_0px_0px_#e23636]'
                       : pill.id === 'pill-fullstack' || pill.id === 'pill-informatics'
-                      ? 'px-4 py-1.5 rounded-full border-2 border-white font-extrabold text-xs sm:text-sm uppercase tracking-wide bg-gradient-to-r from-red-600 to-rose-700 text-white shadow-[3px_3px_0px_0px_#0284c7] whitespace-nowrap active:scale-95'
+                      ? 'px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border-2 border-white font-extrabold text-[11px] sm:text-xs md:text-sm uppercase tracking-wide bg-gradient-to-r from-red-600 to-rose-700 text-white shadow-[3px_3px_0px_0px_#0284c7] whitespace-nowrap active:scale-95'
                       : pill.id === 'pill-ai' || pill.id === 'pill-dimas'
-                      ? 'px-4 py-1.5 rounded-full border-2 border-white font-extrabold text-xs sm:text-sm uppercase tracking-wide bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-[3px_3px_0px_0px_#e23636] whitespace-nowrap active:scale-95'
-                      : 'px-4 py-1.5 rounded-full border-2 border-red-500 font-extrabold text-xs sm:text-sm uppercase tracking-wide bg-slate-950 text-white shadow-[3px_3px_0px_0px_#ef4444] whitespace-nowrap active:scale-95'
+                      ? 'px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border-2 border-white font-extrabold text-[11px] sm:text-xs md:text-sm uppercase tracking-wide bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-[3px_3px_0px_0px_#e23636] whitespace-nowrap active:scale-95'
+                      : 'px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border-2 border-red-500 font-extrabold text-[11px] sm:text-xs md:text-sm uppercase tracking-wide bg-slate-950 text-white shadow-[3px_3px_0px_0px_#ef4444] whitespace-nowrap active:scale-95'
                     : isCircle
                     ? isCode
-                      ? 'w-10 h-10 rounded-full bg-black text-white dark:bg-white dark:text-black border-2 border-black dark:border-white flex items-center justify-center font-mono font-bold text-xs shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.8)]'
-                      : 'w-10 h-10 rounded-full bg-white dark:bg-[#0c121e] text-black dark:text-white border-2 border-black dark:border-white flex items-center justify-center font-black text-base shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.8)]'
-                    : 'px-4 py-1.5 rounded-full border-2 border-black dark:border-white font-extrabold text-xs sm:text-sm uppercase tracking-wide bg-white dark:bg-[#0c121e] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.8)] whitespace-nowrap active:scale-95'
+                      ? 'w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black text-white dark:bg-white dark:text-black border-2 border-black dark:border-white flex items-center justify-center font-mono font-bold text-[10px] sm:text-xs shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.8)]'
+                      : 'w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white dark:bg-[#0c121e] text-black dark:text-white border-2 border-black dark:border-white flex items-center justify-center font-black text-sm sm:text-base shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.8)]'
+                    : 'px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border-2 border-black dark:border-white font-extrabold text-[11px] sm:text-xs md:text-sm uppercase tracking-wide bg-white dark:bg-[#0c121e] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.8)] whitespace-nowrap active:scale-95'
                 }`}
               >
                 {renderPillContent(pill)}
@@ -294,12 +322,12 @@ export default function Hero({ currentLang, theme = 'light' }: HeroProps) {
         </div>
 
         {/* Giant Hero Title: DIMAS ARBI ARDIAN */}
-        <h1 className="w-full text-center font-black tracking-tighter text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[160px] leading-[0.88] select-none text-slate-950 dark:text-white uppercase transition-all relative z-10">
+        <h1 className="w-full text-center font-black tracking-tighter text-4xl sm:text-7xl md:text-8xl lg:text-[130px] xl:text-[150px] leading-[0.92] select-none text-slate-950 dark:text-white uppercase transition-all relative z-10 break-words">
           {dict.hero.titleFirst} {dict.hero.titleLast}
         </h1>
 
         {/* Live Typewriter Monospace Terminal Code */}
-        <div className="mt-8 min-h-[58px] sm:min-h-[48px] max-w-4xl text-center font-mono text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 leading-relaxed px-2 relative z-10">
+        <div className="mt-6 sm:mt-8 min-h-[52px] sm:min-h-[48px] max-w-4xl text-center font-mono text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 leading-relaxed px-2 relative z-10">
           <span>{typedCode}</span>
           <span
             className={`inline-block w-2 text-cyan-600 dark:text-cyan-400 font-bold ml-0.5 ${
@@ -312,10 +340,10 @@ export default function Hero({ currentLang, theme = 'light' }: HeroProps) {
       </div>
 
       {/* Bottom Grid Status Bar (4 Border-Divided Columns) */}
-      <div className="w-full border-t-2 border-b-2 border-black dark:border-white/20 grid grid-cols-2 md:grid-cols-4 font-mono text-xs uppercase font-bold tracking-wider relative z-20">
+      <div className="w-full border-t-2 border-b-2 border-black dark:border-white/20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 font-mono text-[11px] sm:text-xs uppercase font-bold tracking-wider relative z-20">
         {/* Cell 1: Open to Work */}
-        <div className="p-4 border-r-2 border-black dark:border-white/20 flex items-center justify-center sm:justify-start gap-2.5">
-          <span className="relative flex h-2.5 w-2.5">
+        <div className="p-3.5 sm:p-4 border-b sm:border-b-0 sm:border-r-2 border-black dark:border-white/20 flex items-center justify-start gap-2.5">
+          <span className="relative flex h-2.5 w-2.5 flex-shrink-0">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
           </span>
@@ -323,21 +351,21 @@ export default function Hero({ currentLang, theme = 'light' }: HeroProps) {
         </div>
 
         {/* Cell 2: Location */}
-        <div className="p-4 border-b-2 md:border-b-0 md:border-r-2 border-black dark:border-white/20 flex items-center justify-center sm:justify-start">
+        <div className="p-3.5 sm:p-4 border-b sm:border-b-0 md:border-r-2 border-black dark:border-white/20 flex items-center justify-start">
           <span className="text-slate-700 dark:text-slate-300 font-bold">
             {dict.nav.basedIn}
           </span>
         </div>
 
         {/* Cell 3: Today Date */}
-        <div className="p-4 border-r-2 border-black dark:border-white/20 flex items-center justify-center sm:justify-start">
+        <div className="p-3.5 sm:p-4 border-b sm:border-b-0 sm:border-r-2 border-black dark:border-white/20 flex items-center justify-start">
           <span className="text-slate-600 dark:text-slate-400">
             {dict.nav.today}: <strong className="text-black dark:text-white">{currentDateStr}</strong>
           </span>
         </div>
 
         {/* Cell 4: Scroll Down Indicator (Smooth Glide All The Way to Bottom of Page) */}
-        <div className="p-4 flex items-center justify-center sm:justify-between">
+        <div className="p-3.5 sm:p-4 flex items-center justify-between">
           <a
             href="#footer"
             onClick={handleScrollDown}

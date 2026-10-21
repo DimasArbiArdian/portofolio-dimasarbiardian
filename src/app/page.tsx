@@ -47,7 +47,7 @@ export default function Home() {
 
   return (
     <div
-      className={`relative min-h-screen flex flex-col font-sans transition-colors ${
+      className={`relative min-h-screen w-full max-w-full overflow-x-hidden flex flex-col font-sans transition-colors ${
         theme === 'spiderman'
           ? 'bg-[#060812] text-white selection:bg-[#e23636] selection:text-white'
           : 'bg-white dark:bg-[#070b14] text-black dark:text-white selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black'

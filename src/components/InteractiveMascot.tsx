@@ -38,7 +38,7 @@ function SpideyCharacter({
           ? 'transform 0.28s cubic-bezier(0.25, 1, 0.5, 1)'
           : 'transform 0.12s linear',
       }}
-      className="fixed bottom-0.5 sm:bottom-1 z-40 select-none cursor-pointer group flex flex-col items-center pointer-events-auto"
+      className="fixed bottom-0.5 sm:bottom-1 left-0 z-40 select-none cursor-pointer group flex flex-col items-center pointer-events-auto"
       title="Spidey"
     >
       {/* Speech Bubble - Compact & Non-Obstructive on Mobile */}
@@ -170,7 +170,7 @@ function SpiderCrawlerCharacter({
           ? 'transform 0.25s cubic-bezier(0.25, 1, 0.5, 1)'
           : 'transform 0.12s linear',
       }}
-      className="fixed bottom-2 z-40 select-none cursor-pointer group hidden md:flex flex-col items-center pointer-events-auto"
+      className="fixed bottom-2 left-0 z-40 select-none cursor-pointer group hidden md:flex flex-col items-center pointer-events-auto"
       title="Cute Crawler Spider"
     >
       {/* Speech Bubble */}
@@ -316,7 +316,7 @@ function OriginalCreatureCharacter({
           ? 'transform 0.28s cubic-bezier(0.25, 1, 0.5, 1)'
           : 'transform 0.12s linear',
       }}
-      className="fixed bottom-1 z-40 select-none cursor-pointer group hidden md:flex flex-col items-center pointer-events-auto"
+      className="fixed bottom-1 left-0 z-40 select-none cursor-pointer group hidden md:flex flex-col items-center pointer-events-auto"
       title="Original Mascot"
     >
       {/* Speech Bubble */}
