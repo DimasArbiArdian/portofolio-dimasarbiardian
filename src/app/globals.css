@@ -1,0 +1,469 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    overflow-x: hidden;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Custom Sleek Scrollbar */
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 9999px;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: #1e293b;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+}
+
+/* Infinite Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Falling Physics Block Animation */
+@keyframes fallBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(-160px) rotate(-14deg) scale(0.9);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(12px) rotate(3deg) scale(1.05);
+  }
+  80% {
+    transform: translateY(-6px) rotate(-1deg) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+}
+
+.animate-fall-bounce {
+  animation: fallBounce 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Walking Mascot Legs Animation */
+@keyframes walkLegLeft {
+  0%, 100% {
+    transform: translateY(0px) rotate(-6deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(16deg);
+  }
+}
+
+@keyframes walkLegRight {
+  0%, 100% {
+    transform: translateY(-4px) rotate(16deg);
+  }
+  50% {
+    transform: translateY(0px) rotate(-6deg);
+  }
+}
+
+@keyframes scurryLegLeft {
+  0%, 100% {
+    transform: translateY(0px) rotate(-14deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(24deg);
+  }
+}
+
+@keyframes scurryLegRight {
+  0%, 100% {
+    transform: translateY(-7px) rotate(24deg);
+  }
+  50% {
+    transform: translateY(0px) rotate(-14deg);
+  }
+}
+
+.animate-leg-left {
+  animation: walkLegLeft 0.35s ease-in-out infinite;
+}
+
+.animate-leg-right {
+  animation: walkLegRight 0.35s ease-in-out infinite;
+}
+
+.animate-scurry-left {
+  animation: scurryLegLeft 0.16s ease-in-out infinite;
+}
+
+.animate-scurry-right {
+  animation: scurryLegRight 0.16s ease-in-out infinite;
+}
+
+/* Terminal Cursor Blink */
+@keyframes cursorBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-cursor-blink {
+  animation: cursorBlink 0.9s step-start infinite;
+}
+
+/* Subtle Bobbing for Spidey Mascot */
+@keyframes bounceSubtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-bounce-subtle {
+  animation: bounceSubtle 0.35s ease-in-out infinite;
+}
+
+/* Articulated Spidey Mascot Keyframes */
+@keyframes spideyHeadBob {
+  0%, 100% {
+    transform: translateY(0px) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-2.5px) rotate(3.5deg);
+  }
+}
+
+@keyframes spideyHeadScurry {
+  0%, 100% {
+    transform: translateY(0px) rotate(-6deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(6deg);
+  }
+}
+
+@keyframes spideyArmWave {
+  0%, 100% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(14deg);
+  }
+}
+
+@keyframes spideyArmScurry {
+  0%, 100% {
+    transform: rotate(-22deg) scale(1.05);
+  }
+  50% {
+    transform: rotate(25deg) scale(0.95);
+  }
+}
+
+@keyframes spideyLegWalkLeft {
+  0%, 100% {
+    transform: translateY(0px) rotate(-7deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(9deg);
+  }
+}
+
+@keyframes spideyLegWalkRight {
+  0%, 100% {
+    transform: translateY(-5px) rotate(9deg);
+  }
+  50% {
+    transform: translateY(0px) rotate(-7deg);
+  }
+}
+
+@keyframes spideyLegScurryLeft {
+  0%, 100% {
+    transform: translateY(0px) rotate(-14deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(18deg);
+  }
+}
+
+@keyframes spideyLegScurryRight {
+  0%, 100% {
+    transform: translateY(-7px) rotate(18deg);
+  }
+  50% {
+    transform: translateY(0px) rotate(-14deg);
+  }
+}
+
+.animate-spidey-head {
+  transform-origin: 52% 54%;
+  animation: spideyHeadBob 0.65s ease-in-out infinite;
+}
+
+.animate-spidey-head-fast {
+  transform-origin: 52% 54%;
+  animation: spideyHeadScurry 0.22s ease-in-out infinite;
+}
+
+.animate-spidey-arm {
+  transform-origin: 32% 54%;
+  animation: spideyArmWave 0.75s ease-in-out infinite;
+}
+
+.animate-spidey-arm-fast {
+  transform-origin: 32% 54%;
+  animation: spideyArmScurry 0.2s ease-in-out infinite;
+}
+
+.animate-spidey-leg-l {
+  transform-origin: 36% 75%;
+  animation: spideyLegWalkLeft 0.38s ease-in-out infinite;
+}
+
+.animate-spidey-leg-r {
+  transform-origin: 58% 75%;
+  animation: spideyLegWalkRight 0.38s ease-in-out infinite;
+}
+
+.animate-spidey-scurry-l {
+  transform-origin: 36% 75%;
+  animation: spideyLegScurryLeft 0.16s ease-in-out infinite;
+}
+
+.animate-spidey-scurry-r {
+  transform-origin: 58% 75%;
+  animation: spideyLegScurryRight 0.16s ease-in-out infinite;
+}
+
+/* 8-Legged Spider Crawler Keyframes */
+@keyframes spiderLegSwingA {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-14deg) translateY(-3px);
+  }
+}
+
+@keyframes spiderLegSwingB {
+  0%, 100% {
+    transform: rotate(-14deg) translateY(-3px);
+  }
+  50% {
+    transform: rotate(0deg) translateY(0);
+  }
+}
+
+@keyframes spiderLegScurryA {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-22deg) translateY(-5px);
+  }
+}
+
+@keyframes spiderLegScurryB {
+  0%, 100% {
+    transform: rotate(-22deg) translateY(-5px);
+  }
+  50% {
+    transform: rotate(0deg) translateY(0);
+  }
+}
+
+.animate-spider-leg-a {
+  transform-origin: center top;
+  animation: spiderLegSwingA 0.22s ease-in-out infinite;
+}
+
+.animate-spider-leg-b {
+  transform-origin: center top;
+  animation: spiderLegSwingB 0.22s ease-in-out infinite;
+}
+
+.animate-spider-leg-a-fast {
+  transform-origin: center top;
+  animation: spiderLegScurryA 0.11s ease-in-out infinite;
+}
+
+.animate-spider-leg-b-fast {
+  transform-origin: center top;
+  animation: spiderLegScurryB 0.11s ease-in-out infinite;
+}
+
+/* ============================================================
+   SPIDER-MAN THEME (Crimson Red, Web Blue, Noir Black & White)
+   ============================================================ */
+html.theme-spiderman,
+html.theme-spiderman body {
+  background-color: #060812 !important;
+  color: #ffffff !important;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(226, 54, 54, 0.22) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(2, 132, 199, 0.22) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(226, 54, 54, 0.1) 0%, transparent 60%) !important;
+  background-attachment: fixed !important;
+}
+
+html.theme-spiderman ::selection {
+  background-color: #e23636 !important;
+  color: #ffffff !important;
+}
+
+/* Sections Backgrounds */
+html.theme-spiderman section {
+  background-color: transparent !important;
+  border-bottom: 2px solid rgba(226, 54, 54, 0.45) !important;
+}
+
+/* Header / Navbar */
+html.theme-spiderman header {
+  background-color: rgba(6, 8, 18, 0.95) !important;
+  border-bottom: 2px solid #e23636 !important;
+  box-shadow: 0 4px 25px rgba(226, 54, 54, 0.4) !important;
+}
+
+/* Monogram Logo 'D' in Navbar */
+html.theme-spiderman header a div.rounded-lg {
+  background: linear-gradient(135deg, #e23636 0%, #991b1b 100%) !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 2px 2px 0px 0px #0284c7, 0 0 15px rgba(226, 54, 54, 0.8) !important;
+}
+
+/* Active Nav Underline */
+html.theme-spiderman header nav span.rounded-full {
+  background-color: #e23636 !important;
+  box-shadow: 0 0 10px #ef4444 !important;
+}
+
+/* Hero Giant Title: DIMAS ARBI ARDIAN */
+html.theme-spiderman section#home h1 {
+  background: linear-gradient(135deg, #ffffff 25%, #fca5a5 55%, #e23636 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 4px 20px rgba(226, 54, 54, 0.5)) !important;
+}
+
+/* All Bento Cards & Content Cards across sections */
+html.theme-spiderman div[class*="rounded-3xl"],
+html.theme-spiderman div[class*="rounded-2xl"]:not([class*="bubble"]) {
+  background-color: #0b0f1e !important;
+  border: 2px solid rgba(226, 54, 54, 0.6) !important;
+  box-shadow: 4px 4px 0px 0px #e23636 !important;
+}
+
+/* Card Hover Elevation */
+html.theme-spiderman div[class*="rounded-3xl"]:hover {
+  border-color: #38bdf8 !important;
+  box-shadow: 8px 8px 0px 0px #0284c7, 0 0 25px rgba(2, 132, 199, 0.3) !important;
+}
+
+/* Headings in Cards & Sections */
+html.theme-spiderman h2 {
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(226, 54, 54, 0.3) !important;
+}
+
+/* Primary Action Buttons (e.g. Download CV, Read Case Study, View Certificate) */
+html.theme-spiderman a[class*="bg-black"],
+html.theme-spiderman button[class*="bg-black"],
+html.theme-spiderman a[class*="dark:bg-white"],
+html.theme-spiderman button[class*="dark:bg-white"] {
+  background: linear-gradient(135deg, #e23636 0%, #b91c1c 100%) !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 3px 3px 0px 0px #0284c7, 0 0 15px rgba(226, 54, 54, 0.6) !important;
+}
+
+/* Secondary Buttons & External Link Pills */
+html.theme-spiderman a[class*="border-2"],
+html.theme-spiderman button[class*="border-2"] {
+  border-color: #e23636 !important;
+  color: #ffffff !important;
+}
+
+html.theme-spiderman a[class*="border-2"]:hover,
+html.theme-spiderman button[class*="border-2"]:hover {
+  background-color: #e23636 !important;
+  color: #ffffff !important;
+  box-shadow: 3px 3px 0px 0px #0284c7 !important;
+}
+
+/* Tag Chips, Badges & Pills */
+html.theme-spiderman span[class*="rounded-xl"],
+html.theme-spiderman span[class*="rounded-lg"],
+html.theme-spiderman span[class*="rounded-md"] {
+  background-color: #12182b !important;
+  border-color: rgba(226, 54, 54, 0.4) !important;
+  color: #f1f5f9 !important;
+}
+
+/* Accent texts */
+html.theme-spiderman .text-cyan-600,
+html.theme-spiderman .text-cyan-400,
+html.theme-spiderman .text-blue-600 {
+  color: #38bdf8 !important;
+}
+
+html.theme-spiderman .text-emerald-400,
+html.theme-spiderman .text-emerald-600 {
+  color: #e23636 !important;
+}
+
+html.theme-spiderman .bg-emerald-400,
+html.theme-spiderman .bg-emerald-500 {
+  background-color: #e23636 !important;
+}
+
+/* Ticker Bar divider in Hero */
+html.theme-spiderman div.border-t-2 {
+  border-color: #e23636 !important;
+}
+
+/* Floating Guestbook Badge */
+html.theme-spiderman div.fixed.bottom-6.right-6 button {
+  background: linear-gradient(135deg, #e23636 0%, #991b1b 100%) !important;
+  color: #ffffff !important;
+  border: 2px solid #0284c7 !important;
+  box-shadow: 4px 4px 0px 0px #0284c7, 0 0 20px rgba(226, 54, 54, 0.7) !important;
+}
+
+
+
+
