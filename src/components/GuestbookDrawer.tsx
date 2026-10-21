@@ -483,7 +483,18 @@ export default function GuestbookDrawer({
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-2.5">
+          <form onSubmit={handleSubmit} className="space-y-3">
+            {/* Guidance Note */}
+            <div className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px] font-mono text-slate-700 dark:text-slate-300 flex items-center justify-between border border-black/5 dark:border-white/10">
+              <span className="font-bold flex items-center gap-1.5">
+                <span>✍️</span>
+                <span>{currentLang === 'id' ? 'Formulir Kirim Pesan' : 'Leave a Note Form'}</span>
+              </span>
+              <span className="text-[10px] text-slate-500">
+                {currentLang === 'id' ? 'Kolom Wajib Diisi *' : 'Required Fields *'}
+              </span>
+            </div>
+
             {/* Honeypot */}
             <input
               type="text"
@@ -494,7 +505,18 @@ export default function GuestbookDrawer({
               onChange={(e) => setWebsiteUrl(e.target.value)}
             />
 
-            <div className="flex gap-2">
+            {/* Kolom 1: Nama Pengirim */}
+            <div>
+              <label className="block text-[11px] font-mono font-bold uppercase text-slate-800 dark:text-slate-200 mb-1 flex items-center justify-between">
+                <span className="flex items-center gap-1">
+                  <span>👤</span>
+                  <span>{currentLang === 'id' ? 'Kolom Nama Anda' : 'Your Name'}</span>
+                  <span className="text-red-500 font-black">*</span>
+                </span>
+                <span className="text-[10px] text-slate-400 font-normal">
+                  {currentLang === 'id' ? 'Identitas Pengirim' : 'Sender Identity'}
+                </span>
+              </label>
               <input
                 type="text"
                 required
@@ -502,10 +524,23 @@ export default function GuestbookDrawer({
                 placeholder={dict.guestbook.namePlaceholder}
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
-                className="w-1/3 px-3 py-2 rounded-xl border-2 border-black/20 dark:border-white/20 bg-slate-50 dark:bg-slate-900 text-xs font-mono focus:outline-none focus:border-black dark:focus:border-white transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl border-2 border-black/20 dark:border-white/20 bg-slate-50 dark:bg-slate-900 text-xs font-mono text-black dark:text-white focus:outline-none focus:border-black dark:focus:border-white transition-all placeholder:text-slate-400"
               />
+            </div>
 
-              <div className="flex-1 relative flex items-center">
+            {/* Kolom 2: Pesan Pengirim */}
+            <div>
+              <label className="block text-[11px] font-mono font-bold uppercase text-slate-800 dark:text-slate-200 mb-1 flex items-center justify-between">
+                <span className="flex items-center gap-1">
+                  <span>💬</span>
+                  <span>{currentLang === 'id' ? 'Kolom Tulis Pesan' : 'Your Message'}</span>
+                  <span className="text-red-500 font-black">*</span>
+                </span>
+                <span className="text-[10px] text-slate-400 font-normal">
+                  {message.length}/200
+                </span>
+              </label>
+              <div className="relative flex items-center">
                 <input
                   type="text"
                   required
@@ -513,15 +548,16 @@ export default function GuestbookDrawer({
                   placeholder={dict.guestbook.messagePlaceholder}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="w-full pl-3 pr-10 py-2 rounded-xl border-2 border-black/20 dark:border-white/20 bg-slate-50 dark:bg-slate-900 text-xs font-mono focus:outline-none focus:border-black dark:focus:border-white transition-all"
+                  className="w-full pl-3.5 pr-28 py-2.5 rounded-xl border-2 border-black/20 dark:border-white/20 bg-slate-50 dark:bg-slate-900 text-xs font-mono text-black dark:text-white focus:outline-none focus:border-black dark:focus:border-white transition-all placeholder:text-slate-400"
                 />
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="absolute right-1.5 p-1.5 rounded-lg bg-black text-white dark:bg-white dark:text-black disabled:opacity-50 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                  className="absolute right-1.5 px-3 py-1.5 rounded-lg bg-black text-white dark:bg-white dark:text-black font-mono font-bold text-xs uppercase disabled:opacity-50 hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
                   title={dict.guestbook.submit}
                 >
                   <Send className="w-3.5 h-3.5" />
+                  <span>{submitting ? '...' : (currentLang === 'id' ? 'Kirim' : 'Send')}</span>
                 </button>
               </div>
             </div>

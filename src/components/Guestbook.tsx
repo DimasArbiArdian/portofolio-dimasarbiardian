@@ -192,6 +192,12 @@ export default function Guestbook({ currentLang, onCountUpdate, onOpenDrawer }: 
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4 text-xs font-mono">
+              {/* Form Guidance Banner */}
+              <div className="px-3.5 py-2.5 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-black/10 dark:border-white/10 text-[11px] font-mono text-slate-700 dark:text-slate-300 flex items-center gap-2 mb-2">
+                <span>✍️</span>
+                <span>{currentLang === 'id' ? 'Silakan isi kolom Nama dan Pesan di bawah ini untuk mengirimkan pesan ke buku tamu.' : 'Please enter your Name and Message in the fields below to leave a note in the guestbook.'}</span>
+              </div>
+
               {/* Hidden Honeypot */}
               <div className="hidden" aria-hidden="true">
                 <label htmlFor="guestbook_website_url">Leave empty</label>
@@ -206,11 +212,18 @@ export default function Guestbook({ currentLang, onCountUpdate, onOpenDrawer }: 
                 />
               </div>
 
-              {/* Name */}
+              {/* Name Field */}
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1.5 uppercase">
-                  {dict.guestbook.nameLabel}
-                </label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-slate-800 dark:text-slate-200 font-bold uppercase flex items-center gap-1.5">
+                    <span>👤</span>
+                    <span>{dict.guestbook.nameLabel}</span>
+                    <span className="text-red-500 font-black">*</span>
+                  </label>
+                  <span className="text-[10px] text-slate-500 font-mono">
+                    {currentLang === 'id' ? 'Kolom Nama Anda' : 'Your Name Field'}
+                  </span>
+                </div>
                 <input
                   type="text"
                   required
@@ -222,11 +235,17 @@ export default function Guestbook({ currentLang, onCountUpdate, onOpenDrawer }: 
                 />
               </div>
 
-              {/* Role / Org */}
+              {/* Role / Org Field */}
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1.5 uppercase">
-                  {dict.guestbook.roleLabel}
-                </label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-slate-800 dark:text-slate-200 font-bold uppercase flex items-center gap-1.5">
+                    <span>💼</span>
+                    <span>{dict.guestbook.roleLabel}</span>
+                  </label>
+                  <span className="text-[10px] text-slate-500 font-mono">
+                    {currentLang === 'id' ? 'Opsional' : 'Optional'}
+                  </span>
+                </div>
                 <input
                   type="text"
                   maxLength={80}
@@ -237,14 +256,16 @@ export default function Guestbook({ currentLang, onCountUpdate, onOpenDrawer }: 
                 />
               </div>
 
-              {/* Message */}
+              {/* Message Field */}
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="text-slate-700 dark:text-slate-300 font-bold uppercase">
-                    {dict.guestbook.messageLabel}
+                  <label className="text-slate-800 dark:text-slate-200 font-bold uppercase flex items-center gap-1.5">
+                    <span>💬</span>
+                    <span>{dict.guestbook.messageLabel}</span>
+                    <span className="text-red-500 font-black">*</span>
                   </label>
-                  <span className="text-[10px] text-slate-500">
-                    {formData.message.length}/280
+                  <span className="text-[10px] text-slate-500 font-mono">
+                    {currentLang === 'id' ? 'Kolom Tulis Pesan' : 'Message Field'} ({formData.message.length}/280)
                   </span>
                 </div>
                 <textarea
